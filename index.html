@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <title>Tuna (Twitter.com UserName Autocomplete) - ashafa.com</title>
+    <style>
+      *{margin: 0; padding: 0;}
+
+      body {
+      margin: 10px;
+      font-family: 'Lucida Grande', sans-serif;
+      text-align: center;
+      }
+      
+      h1 {
+      margin: 15px 0;
+      }
+
+      h1,h2,h3,h4 {
+      font-weight: normal;
+      margin-bottom: 10px;
+      }
+
+      a {
+      color: #3a5489;
+      }
+      
+      p {
+      margin: 0 0 10px 0;
+      }
+      
+      em{
+      color: #bbb;
+      font-size:70%;
+      display: block;
+      margin-top: 8px;
+      }
+
+      #container {
+      text-align: left;
+      width: 640px;
+      }
+
+      #bookmarklet {
+      position: relative;
+      top:20px;
+      background: #ebebeb url(http://ashafa.com/tuna/green.png) no-repeat 5px 10px;
+      padding:5px 8px 5px 18px;
+      border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;
+      text-decoration: none;
+      color:#777;
+      }
+      
+      .disclaimer {
+      font-size: 80%;
+      font-style: italic;
+      color: #999;
+      }
+      
+      .disclaimer a {
+      color: #999;
+      }
+    </style>
+
+  </head>
+  <body>
+    <div id="container">
+    <h1>Tuna</h1>
+    <p>Do you use twitter? Is <a href="http://twitter.com">twitter.com</a> your favorite twitter client? Do you hate looking for or typing twitter usernames only to have it misspelled? If you answered 'yes' to any of these questions then I've got a treat for you.</p>
+    <p>Tuna (Twitter.com UserName Autocomplete) is a javascript <a href="http://en.wikipedia.org/wiki/Bookmarklet">bookmarklet</a>, when enabled on twitter.com, provides twitter username autocomplete functionality to the status textarea.</p>
+    <p>To start using Tuna, drag the icon below to your 'Bookmarks Toolbar' to create the bookmarklet.  When next you are on twitter.com, all you need to do is click on the 'tuna' bookmarklet.</p>
+    <a id="bookmarklet" href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='http://ashafa.com/tuna/ac.js?nocache='+new Date().getTime();})();">tuna</a>
+    <br /><br /><em>tuna icon</em>
+    <p style="margin-top:20px;">Tuna uses screen names of users in your activity stream for autocomplete candidates. Unfortunately, Tuna only remembers candidates until you reload or refresh twitter.com (An <a href="http://www.w3.org/TR/webstorage/">HTML5 Web Storage</a> solution is in the works). Clicking on the twitter logo on the top right of twitter.com reloads the page, therefore disables Tuna (Clicking on the 'Home' link in the right side navigation is recommended). You would then have to click on the 'tuna' bookmarklet to re-enable Tuna.</p>
+
+    <p>Tuna does not save, collect, or send any information to any remote servers. All data is stored locally in your browser. Tuna source code can also be found on <a href="http://github.com/ashafa/Tuna">github</a>.</p>
+    <p>If you would like to make any suggestions, feedback, or support you can follow me on twitter <a href="http://twitter.com/ashafa">here</a>.</p>
+    <p class="disclaimer"><a href="http://ashafa.com/tuna">Tuna</a> or <a href="http://ashafa.com">ashafa.com</a> are not affiliated with <a href="http://twitter.com/">Twitter</a> in any way, shape, or form.</p>
+    </div>
+  </body>
+</html>
