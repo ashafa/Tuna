@@ -93,54 +93,73 @@
    };
 
    $("#status").bind("keyup", function(event) {
-     var el = $(this),
-     caretPos = Tuna.getCaretPosition(this),
-     value = el.val(),
-     startPos = this.selectionStart,
-     endPos = this.selectionEnd,
-     charAtPos = value.substr(caretPos-1, 1),
-     charBeforePos = value.substr(caretPos-2, 1),
-     charAfterPos = value.substr(caretPos, 1),
-     isAcWorthy = ( caretPos == 1 ) ? /\s|^$/.test(charAfterPos) : /\s|^$/.test(charBeforePos) && /\s|^$/.test(charAfterPos);
-     if ( (charAtPos  == "@" && isAcWorthy) || el.data("ac") ) {
-       if ( event.keyCode == 8 ) {
-         if ( charAtPos == "@" ) el.data("ac", null);
-       } else {
-         var acPos = el.data("ac");
-         if ( !acPos ) {
-           acPos = caretPos;
-           el.data("ac", caretPos);
-         }
-         var searchEnd = value.indexOf(" ", acPos);
-         var searchFor = value.substring(acPos, (searchEnd > 0) ? searchEnd : value.length);
-         if (searchFor != "") {
-           var acUsers = Tuna.autoCompleter.getCompletions(searchFor);
-           if ( acUsers.length > 0 && acUsers[0] != "") {
-             el.data("scroll-top", el.scrollTop());
-             var acUser = (/^[A-Z]/.test(searchFor)) ? acUsers[0] : acUsers[0].toLowerCase();
-             el.val(value.substring(0, startPos) + acUser + " " + value.substring(endPos, value.length));
-             Tuna.selectRange(this, caretPos, caretPos + acUser.length + 1);
-             el.scrollTop(el.height());
+     if ( event.keyCode != 16 ) {
+       var el = $(this),
+       caretPos = Tuna.getCaretPosition(this),
+       value = el.val(),
+       startPos = this.selectionStart,
+       endPos = this.selectionEnd,
+       charAtPos = value.substr(caretPos-1, 1),
+       charBeforePos = value.substr(caretPos-2, 1),
+       charAfterPos = value.substr(caretPos, 1),
+       isAcWorthy = ( caretPos == 1 ) ? /\s|^$/.test(charAfterPos) : /\s|^$/.test(charBeforePos) && /\s|^$/.test(charAfterPos);
+       if ( ( event.keyCode != 9 )  && ((charAtPos  == "@" && isAcWorthy) || el.data("ac")) ) {
+         if ( event.keyCode == 8 ) {
+           if ( charAtPos == "@" ) el.data("ac", null);
+         } else {
+           var acPos = el.data("ac");
+           if ( !acPos ) {
+             acPos = caretPos;
+             el.data("ac", caretPos);
+           }
+           var searchEnd = value.indexOf(" ", acPos);
+           var searchFor = value.substring(acPos, (searchEnd > 0) ? searchEnd : value.length);
+           if (searchFor != "") {
+             el.data("search-for", searchFor);
+             el.data("tab", null);
+             var acUsers = Tuna.autoCompleter.getCompletions(searchFor);
+             el.data("ac-users", acUsers);
+             if ( acUsers.length > 0 && acUsers[0] != "") {
+               el.data("scroll-top", el.scrollTop());
+               var acUser = (/^[A-Z]/.test(searchFor)) ? acUsers[0] : acUsers[0].toLowerCase();
+               el.val(value.substring(0, startPos) + acUser + " " + value.substring(endPos, value.length));
+               Tuna.selectRange(this, caretPos, caretPos + acUser.length + 1);
+               el.scrollTop(el.height());
+             }
            }
          }
        }
      }
    }).bind("keydown", function(event){
-    var el = $(this);
-    if ( event.keyCode == 9 && el.data("ac") ) {
-      return false;
-    }
-    if ( (event.keyCode == 32 || event.keyCode == 13) && el.data("ac") ) {
-      var endAc = el.val().indexOf(" ", el.data("ac")) + 1;
-      el.data("ac", null);
-      if ( endAc == 0 ) {
-        return true;
-      }
-      Tuna.selectRange(this, endAc, endAc);
-      return false;
-    }
-    return true;
-  });
+     var el = $(this),
+     caretPos = Tuna.getCaretPosition(this),
+     value = el.val(),
+     startPos = this.selectionStart,
+     endPos = this.selectionEnd,
+     searchFor = el.data("search-for");
+     if ( event.keyCode == 9 && el.data("ac") ) {
+       var acUsers = el.data("ac-users");
+       var tab = ( el.data("tab") == null ) ? 1 : el.data("tab");
+       if ( acUsers.length > 0 && acUsers[tab]) {
+         var acUser = (/^[A-Z]/.test(searchFor)) ? acUsers[tab] : acUsers[tab].toLowerCase();
+         el.val(value.substring(0, startPos) + acUser + " " + value.substring(endPos, value.length));
+         Tuna.selectRange(this, caretPos, caretPos + acUser.length + 1);
+         el.scrollTop(el.height());
+         el.data("tab", ( tab == (acUsers.length - 1) ) ? 0 : tab + 1);
+       }
+       return false;
+     }
+     if ( (event.keyCode == 32 || event.keyCode == 13) && el.data("ac") ) {
+       var endAc = el.val().indexOf(" ", el.data("ac")) + 1;
+       el.data("ac", null);
+       if ( endAc == 0 ) {
+         return true;
+       }
+       Tuna.selectRange(this, endAc, endAc);
+       return false;
+     }
+     return true;
+   });
 
    var getTunaScreenNames = function(insertMethod) {
      var candidateElements = $("a.screen-name:not(.tuna-ac),a.username:not(.tuna-ac)");
@@ -162,7 +181,7 @@
    setInterval(function(){getTunaScreenNames("unshift");}, 1000);
 
    $("#tuna").remove();
-  var notification = $("<div id='tuna' style='color:#777;position:absolute;left:385px;top:0;background:rgba(177,177,177,0.3) url(http://ashafa.com/tuna/green.png) no-repeat 5px 6px;padding:0 5px 0 18px;font-size:11px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;'>tuna v" + Tuna.version + " <div id='tuna-dd' style='margin-left:1px;border-left:1px solid #fff;display:inline-block;cursor:pointer;'><img style='position:relative;top:-1px;padding:0 0 0 4px;' src='http://ashafa.com/tuna/dd-link.png'/></div></div>");
+  var notification = $("<div id='tuna' style='color:#777;position:absolute;left:385px;top:0;background:rgba(177,177,177,0.3) url(http://ashafa.com/tuna/green.png) no-repeat 5px 7px;padding:0 5px 0 18px;font-size:11px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;'>tuna v" + Tuna.version + " <div id='tuna-dd' style='margin-left:1px;border-left:1px solid #fff;display:inline-block;cursor:pointer;'><img style='position:relative;top:-1px;padding:0 0 0 4px;' src='http://ashafa.com/tuna/dd-link.png'/></div></div>");
    $("div.bar:eq(0)").append(notification);
    $("div#tuna-dd").click(function(){
    });
