@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Tuna (Twitter.com UserName Autocomplete) - ashafa.com</title>
+    <title>Tuna - ashafa.com</title>
     <style>
       *{margin: 0; padding: 0;}
 
@@ -37,13 +37,18 @@
       img {
       padding:20px 0;
       }
+      
+      #wrapper {
+      text-align: center;
+      }
 
       #container {
+      margin: 0 auto;
       text-align: left;
       width: 640px;
       }
 
-      #bookmarklet {
+      .icon {
       position: relative;
       top:20px;
       background: #ebebeb url(http://ashafa.com/tuna/green.png) no-repeat 5px 10px;
@@ -54,6 +59,7 @@
       }
       
       .disclaimer {
+      margin-top: 60px;
       font-size: 80%;
       font-style: italic;
       color: #999;
@@ -62,23 +68,54 @@
       .disclaimer a {
       color: #999;
       }
-    </style>
 
+      .greasemonkey {
+      display: none;
+      }
+
+      .chrome .bookmarklet {
+      display: none;
+      }
+      
+      .chrome .greasemonkey {
+      display: inline;
+      }
+      
+    </style>
+    <script type="text/javascript">
+      /*
+      CSS Browser Selector v0.3.5 (Feb 05, 2010)
+      Rafael Lima (http://rafael.adm.br)
+      http://rafael.adm.br/css_browser_selector
+      License: http://creativecommons.org/licenses/by/2.5/
+      Contributors: http://rafael.adm.br/css_browser_selector#contributors
+      */
+      function css_browser_selector(u){var ua = u.toLowerCase(),is=function(t){return ua.indexOf(t)>-1;},g='gecko',w='webkit',s='safari',o='opera',h=document.documentElement,b=[(!(/opera|webtv/i.test(ua))&&/msie\s(\d)/.test(ua))?('ie ie'+RegExp.$1):is('firefox/2')?g+' ff2':is('firefox/3.5')?g+' ff3 ff3_5':is('firefox/3')?g+' ff3':is('gecko/')?g:is('opera')?o+(/version\/(\d+)/.test(ua)?' '+o+RegExp.$1:(/opera(\s|\/)(\d+)/.test(ua)?' '+o+RegExp.$2:'')):is('konqueror')?'konqueror':is('chrome')?w+' chrome':is('iron')?w+' iron':is('applewebkit/')?w+' '+s+(/version\/(\d+)/.test(ua)?' '+s+RegExp.$1:''):is('mozilla/')?g:'',is('j2me')?'mobile':is('iphone')?'iphone':is('ipod')?'ipod':is('mac')?'mac':is('darwin')?'mac':is('webtv')?'webtv':is('win')?'win':is('freebsd')?'freebsd':(is('x11')||is('linux'))?'linux':'','js']; c = b.join(' '); h.className += ' '+c; return c;}; css_browser_selector(navigator.userAgent);    </script>
   </head>
   <body>
+    <div id="wrapper">
     <div id="container">
     <h1>Tuna</h1>
-    <p>Do you use twitter? Is <a href="http://twitter.com">twitter.com</a> your favorite twitter client? Do you hate looking for or typing twitter usernames only to have it misspelled? If you answered 'yes' to any of these questions then I've got a treat for you.</p>
-    <p>Tuna (Twitter.com UserName Autocomplete) is a javascript <a href="http://en.wikipedia.org/wiki/Bookmarklet">bookmarklet</a>, when enabled on twitter.com, provides twitter username autocomplete functionality to the status text input.</p>
+    <p>Do you use twitter? Is <a href="http://twitter.com">twitter.com</a> your favorite web twitter client? Do you hate looking for or typing twitter usernames only to have it misspelled? If you answered 'yes' to any of these questions then I've got a treat for you.</p>
+   
+    <p>Tuna is a browser <a class="bookmarklet" href="http://en.wikipedia.org/wiki/Bookmarklet">bookmarklet</a><span class="greasemonkey">extension</span> that unobtrusively provides twitter screen name auto complete functionality for status text input on twitter.com.</p>
     <img src="screenie.png" />
-    <p>To start using Tuna, drag the icon below to your 'Bookmarks Toolbar' to create the bookmarklet.  When you are on twitter.com, all you need to do is click on the 'tuna' bookmarklet.</p>
-    <a id="bookmarklet" href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='http://ashafa.com/tuna/ac.js?nocache='+new Date().getTime();})();">tuna</a>
-    <br /><br /><em>icon</em>
-    <p style="margin-top:20px;">Tuna uses screen names of users in your activity stream for autocomplete candidates. Unfortunately, Tuna only remembers candidates until you reload or refresh twitter.com (An <a href="http://www.w3.org/TR/webstorage/">HTML5 Web Storage</a> solution is in the works). Clicking on the twitter logo on the top right of twitter.com reloads the page, therefore disables Tuna (Clicking on the 'Home' link in the right side navigation is recommended). You would then have to click on the 'tuna' bookmarklet to re-enable Tuna.</p>
+    <div class="bookmarklet">
+      <p>To start using Tuna, drag the icon below to your 'Bookmarks Toolbar' to create the bookmarklet.  When you are on twitter.com, all you need to do is click on the 'tuna' bookmarklet.</p>
+      <a class="icon" href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='http://ashafa.com/tuna/tuna.js?nocache='+new Date().getTime();})();">tuna</a>
+      <br /><br /><em>icon</em>
+    </div>
+    <div class="greasemonkey">
+      <p>To start using Tuna, simply click on the icon below to install the browser extension.</p>
+      <a class="icon" href="http://ashafa.com/tuna/tuna.user.js?nocache=v">tuna</a>
+      <br /><br /><em>icon</em>
+    </div>
+    <p style="margin-top:20px;">Tuna uses screen names of users in your activity stream for autocomplete candidates. Unfortunately, Tuna only remembers candidates until you reload or refresh the twitter.com website (An <a href="http://www.w3.org/TR/webstorage/">HTML5 Web Storage</a> solution is in the works). <span class="bookmarklet">Clicking on the twitter logo on the top-right of twitter.com reloads the page, therefore disables Tuna (Clicking on the 'Home' link in the right side navigation is recommended). You would then have to click on the 'tuna' bookmarklet to re-enable Tuna.</span></p>
 
-    <p>Tuna does not save, collect, or send any information to any remote servers. All data is stored locally in your browser. Tuna source code can also be found on <a href="http://github.com/tashafa/Tuna">github</a>.</p>
-    <p>If you would like to make any suggestions, feedback, or support you can follow me on twitter <a href="http://twitter.com/ashafa">here</a>.</p>
+    <p>Tuna does not save, collect, or send any information to any remote servers. All data is stored locally in your browser. Tuna is open sourced resides on <a href="http://github.com/tashafa/Tuna">github</a>.</p>
+    <p>If you would like to make any suggestions, feedback, or show some support you can follow me on twitter <a href="http://twitter.com/ashafa">here</a>.</p>
     <p class="disclaimer"><a href="http://ashafa.com/tuna">Tuna</a> or <a href="http://ashafa.com">ashafa.com</a> are not affiliated with <a href="http://twitter.com/">Twitter</a> in any way, shape, or form.</p>
+    </div>
     </div>
   </body>
 </html>
