@@ -5,6 +5,9 @@
 // @include http://twitter.com/
 // @include http://twitter.com/*
 // @include http://www.twitter.com/*
+// @include https://twitter.com/
+// @include https://twitter.com/*
+// @include https://www.twitter.com/*
 // ==/UserScript=
 (function(){
    document.body.appendChild(document.createElement('script')).src='http://ashafa.com/tuna/tuna.js?nocache='+new Date().getTime();

@@ -29,7 +29,7 @@
 (function() {;
 
    var Tuna = {
-     version: "0.1a",
+     version: "0.2",
      setCaretPosition: function(el, pos) {
        el.focus();
        el = el[0];
@@ -180,10 +180,12 @@
    getTunaScreenNames("unshift");
    setInterval(function(){getTunaScreenNames("unshift");}, 1000);
 
-   $("#tuna").remove();
-  var notification = $("<div id='tuna' style='color:#777;position:absolute;left:385px;top:0;background:rgba(177,177,177,0.3) url(http://ashafa.com/tuna/green.png) no-repeat 5px 7px;padding:0 5px 0 18px;font-size:11px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;'>tuna v" + Tuna.version + " <div id='tuna-dd' style='margin-left:1px;border-left:1px solid #fff;display:inline-block;cursor:pointer;'><img style='position:relative;top:-1px;padding:0 0 0 4px;' src='http://ashafa.com/tuna/dd-link.png'/></div></div>");
+   $("div#tuna").remove();
+   $("span#chars_left_notice").css("left","415px");
+   var notification = $("<div id='tuna' style='color:#777;text-align:right;cursor:pointer;position:absolute;left:463px;top:0;background:rgba(177,177,177,0.3) url(http://ashafa.com/tuna/green.png) no-repeat 5px 7px;padding:0 5px 0 18px;font-size:11px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;'>tuna v" + Tuna.version + " <div id='tuna-dd' style='float:left;background-color:#fff;display:none;width:200px;height:12px;'>test</div></div>");
    $("div.bar:eq(0)").append(notification);
-   $("div#tuna-dd").click(function(){
-   });
 
+   notification.mouseover(function(){
+   }).mouseout(function(){
+   });
 })();
