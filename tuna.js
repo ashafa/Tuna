@@ -29,7 +29,7 @@
 (function() {;
 
    var Tuna = {
-     version: "0.2",
+     version: "0.3",
      setCaretPosition: function(el, pos) {
        el.focus();
        el = el[0];
@@ -181,11 +181,125 @@
    setInterval(function(){getTunaScreenNames("unshift");}, 1000);
 
    $("div#tuna").remove();
-   $("span#chars_left_notice").css("left","415px");
-   var notification = $("<div id='tuna' style='color:#777;text-align:right;cursor:pointer;position:absolute;left:463px;top:0;background:rgba(177,177,177,0.3) url(http://ashafa.com/tuna/green.png) no-repeat 5px 7px;padding:0 5px 0 18px;font-size:11px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;'>tuna v" + Tuna.version + " <div id='tuna-dd' style='float:left;background-color:#fff;display:none;width:200px;height:12px;'>test</div></div>");
-   $("div.bar:eq(0)").append(notification);
+   var notification = $("<div id='tuna' style='color:#777;text-align:right;cursor:pointer;position:absolute;left:170px;top:11px;background:rgba(177,177,177,0.3) url(http://ashafa.com/tuna/green.png) no-repeat 5px 6px;padding:3px 5px 3px 18px;font-size:11px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;'>tuna v" + Tuna.version + "</div>");
+   $("a#logo").after(notification);
 
    notification.mouseover(function(){
    }).mouseout(function(){
    });
+
+   var linkPlugins = {
+
+    _plugin_bitly: {
+    name: "bitly",
+    domain: "bit.ly",
+
+    version: '2.0.1',
+    login: 'ashafa',
+    apiKey: 'R_765553d91b35a3676ba953ccba2df3cb',
+    apply: function(link) {
+      var href = link.getAttribute("href");
+      var hash = href.replace(/.+\/([a-zA-Z0-9]+)$/i, "$1");
+      var url = "http://api.bit.ly/info?"
+                  + "version=" + linkPlugins._plugin_bitly.version
+                  + "&login=" + linkPlugins._plugin_bitly.login
+                  + "&apiKey=" + linkPlugins._plugin_bitly.apiKey
+                  + "&hash=" + hash
+                  + "&format=json&callback=?";
+      var titlePath = ["htmlTitle", hash, "results"];
+      var expUrlPath = ["longUrl", hash, "results"];
+      linkPlugins.urlExpansion(link, url, titlePath, expUrlPath);
+    }
+  },
+
+  _plugin_twitpic: {
+    name: "twitpic",
+    domain: "twitpic.com",
+
+    apply: function(link) {
+      var href = link.getAttribute("href");
+      var imageId = href.replace(/.+\/([a-zA-Z0-9]+)$/i, "$1");
+      link.setAttribute("title", "<div class=\'thumbnail\'><img src='http://twitpic.com/show/thumb/" + imageId + "' border='0' /></div>");
+    }
+  },
+
+  _plugin_yfrog: {
+    name: "yfrog",
+    domain: "yfrog.com",
+
+    apply: function(link) {
+      var href = link.getAttribute("href");
+      link.setAttribute("title", "<div class=\'thumbnail\'><img src='" + href + ".th.jpg' border='0' /></div>");
+
+    }
+  },
+
+  _plugin_picgd: {
+    name: "picgd",
+    domain: "pic.gd",
+
+    apply: function(link) {
+      var href = link.getAttribute("href");
+      link.setAttribute("title", "<div class=\'thumbnail\'><img src='http://TweetPhotoAPI.com/api/TPAPI.svc/imagefromurl?size=thumbnail&url=" + href + "' border='0' /></div>");
+
+    }
+
+  },
+
+  _plugin_owly: {
+    name: "owly",
+    domain: "ow.ly",
+
+    apply: function(link) {
+      var href = link.getAttribute("href");
+      var titlePath = ["title"];
+      var expUrlPath = ["expurl"];
+      var url = "/u/url-expander?url=" + href;
+      return linkPlugins.urlExpansion(link, url, titlePath, expUrlPath);
+    }
+  },
+
+
+  digForData: function(data, path){
+    return ( path.length > 1 ) ?
+      linkPlugins.digForData(data[path.pop()], path) :
+      data[path.pop()];
+  },
+
+     urlExpansion: function(link ,url, titlePath, expUrlPath) {
+    $.getJSON(url, function(data){
+      var title = linkPlugins.digForData(data, titlePath) || "<span class='no-info'>(No title.)</span>";
+      var expUrl = linkPlugins.digForData(data, expUrlPath);
+      var urlMatches = expUrl.match(/(.{40}).*(.{10}$)/);
+      var formattedUrl = (urlMatches) ? (urlMatches[1] + "..." + urlMatches[2]) : expUrl;
+      var html = "<p>" + title + "<br /><a title='" + expUrl + "' href='" + expUrl + "'>" + formattedUrl + "</a></p>";
+      var youtubeMatch = expUrl.match(/youtube.com\/.*v=([a-z0-9_\-]+)(&|$)/i);
+        if ( youtubeMatch && youtubeMatch[1] ) {
+          html += "<div class=\"video\"><object width=\"325\" height=\"244\">"
+            + "<param name=\"movie\" value=\"http://youtube.com/v/" + youtubeMatch[1] + "\"></param>"
+            + "<param name=\"allowFullScreen\" value=\"true\"></param>"
+            + "<embed type=\"application/x-shockwave-flash\" src=\"http://youtube.com/v/" + youtubeMatch[1] + "\" quality=\"high\" allowscriptaccess=\"always\" allowNetworking=\"all\" allowfullscreen=\"true\" wmode=\"transparent\" height=\"244\" width=\"325\"></object></div>";
+        }
+      link.setAttribute("title", html);
+    });
+    return "test";
+  },
+
+  applyPlugins: function(){
+    for (pluginTag in linkPlugins) {
+      if ( pluginTag.indexOf("_plugin_") == 0 ) {
+        linkPlugins.applyPlugin(linkPlugins[pluginTag]);
+      }
+    }
+  },
+
+  applyPlugin: function(plugin) {
+    $("a[href*=" + plugin.domain+ "/]:not(.tuna-set)")
+      .each(function(){plugin.apply(this); $(this).addClass("tuna-set");})
+      .tipsy({gravity: 's', live: true, html: true, fallback: 'Fetching...', title: "title"});
+  }
+};
+
+  setInterval(function(){linkPlugins.applyPlugins();}, 1000);
+
 })();
