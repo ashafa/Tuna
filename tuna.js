@@ -223,6 +223,23 @@
     }
   },
 
+  _plugin_youtube: {
+    name: "youtube",
+    domain: "youtube.com",
+
+    apply: function(link) {
+      var href = link.getAttribute("href");
+      var youtubeMatch = href.match(/youtube.com\/.*v=([a-z0-9_\-]+)(&|$)/i);
+      if ( youtubeMatch && youtubeMatch[1] ) {
+        link.setAttribute("title", "<div class=\"video\"><object width=\"200\" height=\"200\">"
+          + "<param name=\"movie\" value=\"http://youtube.com/v/" + youtubeMatch[1] + "&autoplay=1\"></param>"
+          + "<param name=\"allowFullScreen\" value=\"true\"></param>"
+          + "<embed type=\"application/x-shockwave-flash\" src=\"http://youtube.com/v/" + youtubeMatch[1] + "&autoplay=1\" quality=\"high\" allowscriptaccess=\"always\" allowNetworking=\"all\" allowfullscreen=\"true\" wmode=\"transparent\" height=\"200\" width=\"200\"></object></div>");
+      }
+
+    }
+  },
+
   _plugin_yfrog: {
     name: "yfrog",
     domain: "yfrog.com",
@@ -274,12 +291,12 @@
       var formattedUrl = (urlMatches) ? (urlMatches[1] + "..." + urlMatches[2]) : expUrl;
       var html = "<p>" + title + "<br /><a title='" + expUrl + "' href='" + expUrl + "'>" + formattedUrl + "</a></p>";
       var youtubeMatch = expUrl.match(/youtube.com\/.*v=([a-z0-9_\-]+)(&|$)/i);
-        if ( youtubeMatch && youtubeMatch[1] ) {
-          html += "<div class=\"video\"><object width=\"325\" height=\"244\">"
-            + "<param name=\"movie\" value=\"http://youtube.com/v/" + youtubeMatch[1] + "\"></param>"
-            + "<param name=\"allowFullScreen\" value=\"true\"></param>"
-            + "<embed type=\"application/x-shockwave-flash\" src=\"http://youtube.com/v/" + youtubeMatch[1] + "\" quality=\"high\" allowscriptaccess=\"always\" allowNetworking=\"all\" allowfullscreen=\"true\" wmode=\"transparent\" height=\"244\" width=\"325\"></object></div>";
-        }
+      if ( youtubeMatch && youtubeMatch[1] ) {
+        html += "<div class=\"video\"><object width=\"200\" height=\"200\">"
+          + "<param name=\"movie\" value=\"http://youtube.com/v/" + youtubeMatch[1] + "&autoplay=1\"></param>"
+          + "<param name=\"allowFullScreen\" value=\"true\"></param>"
+          + "<embed type=\"application/x-shockwave-flash\" src=\"http://youtube.com/v/" + youtubeMatch[1] + "&autoplay=1\" quality=\"high\" allowscriptaccess=\"always\" allowNetworking=\"all\" allowfullscreen=\"true\" wmode=\"transparent\" height=\"200\" width=\"200\"></object></div>";
+      }
       link.setAttribute("title", html);
     });
     return "test";
