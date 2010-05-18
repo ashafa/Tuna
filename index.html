@@ -27,6 +27,10 @@
       margin: 0 0 10px 0;
       }
       
+      p.img {
+      margin: 0 0 20px 0;
+      }
+
       em{
       color: #bbb;
       font-size:70%;
@@ -34,8 +38,9 @@
       margin-top: 8px;
       }
       
+      
       img {
-      padding:20px 0;
+      padding:0;
       }
       
       #wrapper {
@@ -103,7 +108,6 @@
     <p>Do you use twitter? Is <a href="http://twitter.com">twitter.com</a> your favorite web based twitter client? Do you hate looking for or typing twitter usernames only to have it misspelled? If you answered 'yes' to any of these questions then I've got a treat for you.</p>
    
     <p>Tuna is a browser <a class="bookmarklet" href="http://en.wikipedia.org/wiki/Bookmarklet">bookmarklet</a><span class="greasemonkey">extension</span> that unobtrusively provides twitter screen name auto complete functionality for status text input on twitter.com.</p>
-    <img src="screenie.png" />
     <div class="bookmarklet">
       <p>To start using Tuna, drag the icon below to your 'Bookmarks Toolbar' to create the bookmarklet.  When you are on twitter.com, all you need to do is click on the 'tuna' bookmarklet. <span class="ff-greasemonkey">If you have the <a href="https://addons.mozilla.org/en-US/firefox/addon/748">Greasemonkey Firefox add-on</a> installed (recommended). You can install Tuna by simply <a href="http://ashafa.com/tuna/tuna.user.js">clicking here</a>.</span></p>
       <a class="icon" href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='http://ashafa.com/tuna/tuna.js?nocache='+new Date().getTime();})();">tuna</a>
@@ -117,7 +121,13 @@
     <p style="margin-top:20px;">Tuna uses screen names of users in your activity stream for autocomplete candidates, and will remember screen names of users it has come come across while you are on twitter.com by storing them locally in your browser using <a href="http://www.w3.org/TR/webstorage/">HTML5 Web Storage</a>. <span class="bookmarklet">Unfortunately, using bookmarklets has a certain drawback. Clicking on links that reload pages on twitter.com, such as the twitter logo or the 'following'/'followers' links has the effect of disabling Tuna . You would then have to click on the 'tuna' bookmarklet to re-enable Tuna.</span> <span class="ff-greasemonkey">This can be solved by installing the <a href="https://addons.mozilla.org/en-US/firefox/addon/748">Greasemonkey Firefox add-on</a>. Once installled, <a href="http://ashafa.com/tuna/tuna.user.js">click here to install Tuna</a>.</span></p>
     <p>Tuna does not save, collect, or send any information to any remote servers. All data is stored locally in your browser. Tuna is open sourced and resides on <a href="http://github.com/tashafa/Tuna">github</a>.</p>
     <p>If you would like to make any suggestions, feedback, or show some support you can follow me on twitter <a href="http://twitter.com/ashafa">here</a>.</p>
-    <p class="disclaimer"><a href="http://ashafa.com/tuna">Tuna</a> or <a href="http://ashafa.com">ashafa.com</a> are not affiliated with <a href="http://twitter.com/">Twitter</a> in any way, shape, or form.</p>
+    <br /><br />
+    <h2>Features:</h2>
+    <h3>Autocomplete twitter user names</h3>
+    <p class="img"><img src="screenie.png" style="border: 3px solid #eee" /></p>
+    <h3>Expand shortened urls/preview media</h3>
+    <p class="img"><img src="screenie-2.png" style="border: 3px solid #eee" /></p>
+    <p class="disclaimer"><a href="http://ashafa.com/tuna">Tuna</a> is not affiliated with <a href="http://twitter.com/">Twitter</a> in any way, shape, or form.</p>
     </div>
     </div>
   </body>

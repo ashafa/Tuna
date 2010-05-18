@@ -181,7 +181,7 @@
    setInterval(function(){getTunaScreenNames("unshift");}, 1000);
 
    $("div#tuna").remove();
-   var notification = $("<div id='tuna' style='color:#777;text-align:right;cursor:pointer;position:absolute;left:170px;top:11px;background:rgba(177,177,177,0.3) url(http://ashafa.com/tuna/green.png) no-repeat 5px 6px;padding:3px 5px 3px 18px;font-size:11px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;'>tuna v" + Tuna.version + "</div>");
+   var notification = $("<div id='tuna' style='text-align:right;cursor:pointer;position:absolute;left:170px;top:11px;color:#777;background:rgba(0,0,0,0.1) url(http://ashafa.com/tuna/green.png) no-repeat 5px 6px;padding:3px 5px 3px 18px;font-size:11px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;'>tuna v" + Tuna.version + "</div>");
    $("a#logo").after(notification);
 
    notification.mouseover(function(){
@@ -313,7 +313,7 @@
   applyPlugin: function(plugin) {
     $("a[href*=" + plugin.domain+ "/]:not(.tuna-set)")
       .each(function(){plugin.apply(this); $(this).addClass("tuna-set");})
-      .tipsy({gravity: 's', live: true, html: true, fallback: 'Fetching...', title: "title"});
+      .tipsy({gravity: 's', delayIn: 1000, live: true, html: true, fallback: 'Fetching...', title: "title"});
   }
 };
 
