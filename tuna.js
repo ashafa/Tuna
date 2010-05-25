@@ -29,7 +29,7 @@
 (function() {;
 
    var Tuna = {
-     version: "0.3",
+     version: "0.3.1",
      setCaretPosition: function(el, pos) {
        el.focus();
        el = el[0];
@@ -149,7 +149,7 @@
        }
        return false;
      }
-     if ( (event.keyCode == 32 || event.keyCode == 13) && el.data("ac") ) {
+     if ( (event.keyCode == 32 || event.keyCode == 13 || event.keyCode == 39) && el.data("ac") ) {
        var endAc = el.val().indexOf(" ", el.data("ac")) + 1;
        el.data("ac", null);
        if ( endAc == 0 ) {

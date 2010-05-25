@@ -1,1 +1,4 @@
 Please visit "http://ashafa.com/tuna":http://ashafa.com/tuna
+
+Special thanks to:
+@TeeKearns (Coming up with the name Tuna and bug reporting)
